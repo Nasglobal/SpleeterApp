@@ -1,0 +1,70 @@
+
+ <script>
+  $('#btnclick').click(function(){
+    const form_id = document.getElementById('upload_form');
+    const progress_id = document.getElementById('progress_bar');
+    const audio_downloaded = document.getElementById('audio-downloaded');
+    const alert = document.getElementById('alert-message');
+    let file_name = $('#id_file_name').val();
+    let audio_file = $('#id_audio_file').val();
+    if (audio_file == "" || file_name == ""){
+    alert.style.display = 'block';
+     alert.classList.add('alert-danger');
+     alert.innerHTML = `<h5>Fields cannot be empty</h5>
+               <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+               <span aria-hidden="true">&times;</span>
+                  </button>`;
+    }else{
+    progress_id.style.display = 'block'
+    let mydata = new FormData();
+    mydata.append("audio_file", $("input[id^='id_audio_file']")[0].files[0]);
+    mydata.append("file_name", file_name);
+
+    $.ajax({
+    url:"{% url 'saveaudio'%}",
+    method:"POST",
+    data:mydata,
+    mimeType: "multipart/form-data",
+    processData:false,
+    contentType:false,
+    dataType: "json",
+    success:function(data){
+    audio = data.upload;
+       audio_downloaded.innerHTML = `<div  class="card" style="width: 24rem;">
+         <div  class="card-body">
+            <h4>${audio.file_name}</h4>
+            <audio controls >
+                <source src="media/${audio.my_file}">
+            </audio>
+            <a href="split/${audio.id}" id="spleeting-btn" class="btn btn-danger">Click to Spleet Audio</a>
+        </div>`
+       form_id.reset();
+     //console.log(audio.file_name);
+     //console.log(data.status);
+     alert.style.display = 'block';
+     alert.classList.add('alert-success');
+     alert.innerHTML = `<h5>FILE UPLOADED SUCCESSFUL</h5>
+               <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+               <span aria-hidden="true">&times;</span>
+                  </button>`;
+      progress_id.style.display = 'none'
+         },
+         error : function(err){
+         progress_id.style.display = 'none'
+         console.log(err)
+         }
+    })
+    }
+  })
+
+  $('#form-split').click(function(){
+     const splitmessage = document.getElementById('spleet-message');
+     splitmessage.style.display = 'block'
+  })
+ </script>
+
+
+
+
+
+
