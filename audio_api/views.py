@@ -23,14 +23,19 @@ def spleet(request,id):
     audio_dir =aud[:-4]
     input_file = f"media\{audio}"
     output_dir = "media\output"
-    separator = Separator('spleeter:2stems')
+    separator = Separator('spleeter:4stems')
     separator.separate_to_file(input_file,output_dir)
     v = f"..\{output_dir}\{audio_dir}"
     vocals_file = os.path.join(v,'vocals.wav')
-    instrumental_file = os.path.join(v,'accompaniment.wav')
+    bass_file = os.path.join(v,'bass.wav')
+    piano_file = os.path.join(v, 'other.wav')
+    drums_file = os.path.join(v, 'drums.wav')
     context = {
+        "original":input_file,
         "vocals":vocals_file,
-        "instrumental":instrumental_file
+        "bass":bass_file,
+        "drums":drums_file,
+        "piano":piano_file
     }
     return render(request, 'split.html', context)
 
