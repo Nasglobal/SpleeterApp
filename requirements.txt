@@ -72,7 +72,7 @@ sqlparse
 tablib
 tensorboard
 tensorboard-data-server
-tensorboard-plugin
+tensorboard-plugin-wit
 tensorflow
 tensorflow-estimator
 tensorflow-intel
