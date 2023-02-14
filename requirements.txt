@@ -4,6 +4,7 @@ django-import-export
 ffmpeg-python
 gunicorn
 spleeter
+soundfile
 virtualenv
 
 
